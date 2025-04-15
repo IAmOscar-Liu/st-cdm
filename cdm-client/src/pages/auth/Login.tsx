@@ -150,7 +150,7 @@ function Login() {
             </CustomLoadingButton>
           </form>
         </Form>
-        <DevTool control={form.control} />
+        {import.meta.env.DEV && <DevTool control={form.control} />}
       </div>
     </div>
   );

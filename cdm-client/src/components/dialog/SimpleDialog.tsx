@@ -130,7 +130,7 @@ function SimpleDialog(props: DialogEditProps<FormData>) {
             </DialogFooter>
           </form>
         </Form>
-        <DevTool control={form.control} />
+        {import.meta.env.DEV && <DevTool control={form.control} />}
       </DialogContent>
     </Dialog>
   );

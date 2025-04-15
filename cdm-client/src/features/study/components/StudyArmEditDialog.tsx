@@ -126,7 +126,7 @@ function StudyArmEditDialog(props: DialogEditProps<FormData & { id: string }>) {
             </DialogFooter>
           </form>
         </Form>
-        <DevTool control={form.control} />
+        {import.meta.env.DEV && <DevTool control={form.control} />}
       </DialogContent>
     </Dialog>
   );
