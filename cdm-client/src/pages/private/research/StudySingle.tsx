@@ -66,8 +66,6 @@ function StudySingle() {
         return <Patients />;
       case "Information":
         return <Information />;
-      default:
-        return null;
     }
   };
 
@@ -93,17 +91,17 @@ function StudySingle() {
           </div>
         </div>
 
-        <div className="before:bg-border relative mt-2 flex w-full before:absolute before:top-full before:left-0 before:h-[2px] before:w-full before:content-['']">
+        <ul className="before:bg-border relative mt-2 flex w-full before:absolute before:top-full before:left-0 before:h-[2px] before:w-full before:content-['']">
           {tabOptions.map((tab) => (
-            <ul
+            <li
               key={tab}
               className={tabClassName(tab === activeTab)}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
-            </ul>
+            </li>
           ))}
-        </div>
+        </ul>
         <div className="mt-4">{renderDetails()}</div>
       </main>
     </>
