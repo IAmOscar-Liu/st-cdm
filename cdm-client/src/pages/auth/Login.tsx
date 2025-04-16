@@ -6,6 +6,7 @@ import ErrorLoginInfo, {
 } from "@/components/others/ErrorLoginInfo";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { AUTH_SETTINGS_KEY, QUERIES } from "@/constants";
 import { useAuth } from "@/context/AuthProvider";
 import { useTheme } from "@/context/ThemeProvider";
@@ -17,7 +18,6 @@ import { AuthSettings } from "@/types/general";
 import { ApiResponse } from "@/types/response";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
