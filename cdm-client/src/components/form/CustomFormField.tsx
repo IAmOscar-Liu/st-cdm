@@ -20,12 +20,12 @@ import { cn } from "@/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import {
-  Control,
-  ControllerFieldState,
-  ControllerRenderProps,
-  FieldValues,
-  Path,
-  UseFormStateReturn,
+  type Control,
+  type ControllerFieldState,
+  type ControllerRenderProps,
+  type FieldValues,
+  type Path,
+  type UseFormStateReturn,
   useWatch,
 } from "react-hook-form";
 
@@ -143,7 +143,8 @@ function CustomFormField<T extends FieldValues>(
         return (
           <Select
             onValueChange={field.onChange}
-            defaultValue={field.value}
+            // defaultValue={field.value}
+            value={field.value}
             disabled={isDisabled}
           >
             <SelectTrigger
@@ -167,7 +168,8 @@ function CustomFormField<T extends FieldValues>(
         return (
           <RadioGroup
             onValueChange={field.onChange}
-            defaultValue={field.value}
+            // defaultValue={field.value}
+            value={field.value}
             className={cn("flex space-x-4", props.className)}
             disabled={isDisabled}
           >
