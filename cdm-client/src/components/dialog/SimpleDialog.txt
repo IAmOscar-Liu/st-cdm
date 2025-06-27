@@ -14,7 +14,7 @@ import { waitFor } from "@/lib/utils";
 import { DialogEditProps } from "@/types/general";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 import { z } from "zod";
@@ -33,6 +33,7 @@ const DEFAULT_FORM_VALUE: FormData = {
 function SimpleDialog(props: DialogEditProps<FormData>) {
   const { mode, open, setOpen } = props;
   const data = props.mode === "update" ? props.data : undefined;
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { formatMessage: t } = useIntl();
   const toast = useToast();
 
@@ -68,7 +69,6 @@ function SimpleDialog(props: DialogEditProps<FormData>) {
     console.log("Submitted:", value);
     await waitFor(1000);
     toast.success({ title: "Profile updated successfully" });
-    // toast.error({ title: "Profile updated failed" });
     setOpen(false);
   };
 
@@ -87,7 +87,15 @@ function SimpleDialog(props: DialogEditProps<FormData>) {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <form
+            // onSubmit={form.handleSubmit(handleSubmit)}
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setIsSubmitting(true);
+              await handleSubmit(form.getValues());
+              setIsSubmitting(false);
+            }}
+          >
             <div className="mb-4">
               <CustomFormField
                 required
@@ -114,7 +122,7 @@ function SimpleDialog(props: DialogEditProps<FormData>) {
                 Close
               </Button>
               <CustomLoadingButton
-                isLoading={form.formState.isSubmitting}
+                isLoading={isSubmitting}
                 disabled={!form.formState.isValid}
               >
                 Save changes

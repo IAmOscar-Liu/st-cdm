@@ -14,7 +14,7 @@ import { waitFor } from "@/lib/utils";
 import { DialogEditProps } from "@/types/general";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 import { z } from "zod";
@@ -32,7 +32,6 @@ const DEFAULT_FORM_VALUE: FormData = {
 function StudyArmEditDialog(props: DialogEditProps<FormData & { id: string }>) {
   const { mode, open, setOpen } = props;
   const data = props.mode === "update" ? props.data : undefined;
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { formatMessage: t } = useIntl();
   const toast = useToast();
 
@@ -83,15 +82,7 @@ function StudyArmEditDialog(props: DialogEditProps<FormData & { id: string }>) {
         </DialogHeader>
 
         <Form {...form}>
-          <form
-            // onSubmit={form.handleSubmit(handleSubmit)}
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setIsSubmitting(true);
-              await handleSubmit(form.getValues());
-              setIsSubmitting(false);
-            }}
-          >
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <div className="mb-4">
               <CustomFormField
                 required
@@ -118,7 +109,7 @@ function StudyArmEditDialog(props: DialogEditProps<FormData & { id: string }>) {
                 Cancel
               </Button>
               <CustomLoadingButton
-                isLoading={isSubmitting}
+                isLoading={form.formState.isSubmitting}
                 disabled={!form.formState.isValid}
               >
                 Confirm

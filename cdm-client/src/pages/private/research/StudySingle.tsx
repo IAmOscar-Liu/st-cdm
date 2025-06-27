@@ -7,7 +7,7 @@ import { mockStudies } from "@/features/study/mock";
 import { cn } from "@/lib/utils";
 import { PageLink, PageTitle } from "@/routes/layouts/PageData";
 import { ChevronLeftIcon, MoreVerticalIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 const tabOptions = [
@@ -54,21 +54,24 @@ function StudySingle() {
   const [activeTab, setActiveTab] = useState<TabOption>("Study Arm");
   const studyBrief = mockStudies.find((s) => s.id === studyId)!;
 
+  const detailComponents = useMemo(
+    () => ({
+      "Study Arm": <StudyArm />,
+      "Linked Survey Schedules": <LinkedSurvey />,
+      Patients: <Patients />,
+      Information: <Information />,
+    }),
+    [],
+  );
+
+  const renderDetails = useCallback(
+    (option: TabOption) => {
+      return detailComponents[option] ?? null;
+    },
+    [detailComponents],
+  );
+
   if (!studyId) return <Navigate to="/research/study" replace />;
-
-  const renderDetails = () => {
-    switch (activeTab) {
-      case "Study Arm":
-        return <StudyArm />;
-      case "Linked Survey Schedules":
-        return <LinkedSurvey />;
-      case "Patients":
-        return <Patients />;
-      case "Information":
-        return <Information />;
-    }
-  };
-
   return (
     <>
       <PageTitle breadcrumbs={breadcrumbs}>Details</PageTitle>
@@ -102,7 +105,7 @@ function StudySingle() {
             </li>
           ))}
         </ul>
-        <div className="mt-4">{renderDetails()}</div>
+        <div className="mt-4">{renderDetails(activeTab)}</div>
       </main>
     </>
   );
